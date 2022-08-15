@@ -21,6 +21,8 @@ When it comes to zigbee hardware, several devices are necessary. Following devic
 The system is designed to support the above listed devices. However, devices using the same data structure in zigbee2mqtt will also work. 
 
 ## Installation and Deployment
+
+**Super wär, wenn du die einzelnen Dateien gleich als Dateien in den richtigen Sub-Foldern in dieses Repo gibst. Also mit dem Ziel, dass ich zum Starten nur das Repo clonen muss, dann evtl. ein paar Konfigurationen vornehmen, und mit docker-compose dann gleich alles starten kann. Macht die Doku deutlich überschaubarer, und erspart mir als faulen Entwickler viel copy-paste.**
 1. Open the  ```zigbee2mqtt-server``` folder locally on your machine.  Open the [```docker-compose.yaml```](./docker-compose.yaml) and change the device mount point if necessary. Use the following command ```ls -l /dev/serial/by-id``` to figure out which mount point the Sonoff dongle is mounted to. The USB mount point is specified in the ```devices``` section of the zigbee2mqtt container in the [```docker-compose.yaml```](./docker-compose.yaml).
 
 Example output for the above stated command:
