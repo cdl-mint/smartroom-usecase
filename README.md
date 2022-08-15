@@ -16,6 +16,5 @@ The second layer is the [zigbee2mqtt server](https://github.com/stefan-hinterhoe
 3. Digital Twin Layer:
 The [API](https://github.com/stefan-hinterhoelzl/smartroom-usecase/tree/master/smartroom-api) created with python fastAPI combined with a mosquitto publisher to transmit messages to devices, the mosquitto subscriber which listens for messages, Grafana, pgadmin and the timscaledb all running in their own containers combined via a docker-compose file. The API maintains devices and stores operational data of these devices. Both structural and operational data is persisted using a [timescale database](https://www.timescale.com/). This also enables to query the history of operational data using the provided API. Besides these device management and query capabilitiesMoreover, the API also to interact with connected devices via their DTs, e.g. to turn on particular devices, or change the color of a smart light.
 
-**Bei der Grafik bitte noch unterschiedliche Namen für die DT-seitige host machine und die Hardware-seitige host machine vergeben**
 ![Layer Graphic](/assets/images/Architektur.png)
 
