@@ -1,9 +1,14 @@
 # Smartroom-API deployment with Docker
 
 ## Requirements
-This repository needs to be cloned to the desired server host. The host can be operated on any operating system. The host needs to have [docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/) installed. 
+- This repository needs to be cloned to the desired server host.
+- The host can be operated on any operating system.
+- The host needs to have [docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/) installed. 
 
-## Important Notes
+## Starting the API
+Beschreib hier 
+
+## Description of individual Docker containers
 The services included in this docker container system are the following. The stated ports are preconfigured and can be changed in the docker configurations. 
 
 #### fastAPI on port 8001
@@ -39,7 +44,8 @@ The ID used is the friendly name in zigbee. Per default this is the same as the 
 ## Usecase Running Example
 This section shows a running example of pairing a device in the API and reading data through the api and with pgadmin. 
 At this point it is assumed that the device has already been paired to the zigbee network as stated in the documentation of the [zigbee2mqtt-server](https://github.com/stefan-hinterhoelzl/smartroom-usecase/tree/master/zigbee2mqtt-server).
-
+**Gib hier bitte noch zwei Fälle rein
+**Achtung: die Referenzen zeigen nun alle auf dein Repository -> bitte pass das auf relative Referenzen an. Also z.B. /zigbee2mqtt-server statt https://github.com/stefan-hinterhoelzl/smartroom-usecase/tree/master/zigbee2mqtt-server
 
 #### Pairing the Device to the API
 1. The device needs to be associated to a specific room. The device is addressed via the room. Therefore, before adding a device, we need to create a room on the post endpoint ```/Rooms```. 
