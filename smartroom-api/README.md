@@ -41,11 +41,11 @@ To add a device use the respective endpoint based on the device type (plug, sens
 
 The ID used is the friendly name in zigbee. Per default this is the same as the unique ID. The frindly name can be changed in the ```configuration.yaml``` of the [zigbee server](https://github.com/stefan-hinterhoelzl/smartroom-usecase/tree/master/zigbee2mqtt-server), however be mindful about having unique names! Moreover, as of this time the API does not support changing the ID after initial adding. General recommendation - stick to the unique ID given by zigbee. 
 
-## Usecase Running Example
+## Example Usage
 This section shows a running example of pairing a device in the API and reading data through the api and with pgadmin. 
 At this point it is assumed that the device has already been paired to the zigbee network as stated in the documentation of the [zigbee2mqtt-server](https://github.com/stefan-hinterhoelzl/smartroom-usecase/tree/master/zigbee2mqtt-server).
-**Gib hier bitte noch zwei Fälle rein
-**Achtung: die Referenzen zeigen nun alle auf dein Repository -> bitte pass das auf relative Referenzen an. Also z.B. /zigbee2mqtt-server statt https://github.com/stefan-hinterhoelzl/smartroom-usecase/tree/master/zigbee2mqtt-server
+**Gib hier bitte noch zwei Fälle rein: Daten via Grafana abrufen, bzw. Device-Zustand über APi ändern.**
+**Achtung: die Referenzen zeigen nun alle auf dein Repository -> bitte pass das auf relative Referenzen an. Also z.B. [so](/zigbee2mqtt-server) statt [so](https://github.com/stefan-hinterhoelzl/smartroom-usecase/tree/master/zigbee2mqtt-server)
 
 #### Pairing the Device to the API
 1. The device needs to be associated to a specific room. The device is addressed via the room. Therefore, before adding a device, we need to create a room on the post endpoint ```/Rooms```. 
