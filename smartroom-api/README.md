@@ -9,7 +9,17 @@
 Beschreib hier 
 
 ## Description of individual Docker containers
-The services included in this docker container system are the following. The stated ports are preconfigured and can be changed in the docker configurations. 
+The services included in this docker container system are the following. The stated ports are preconfigured and can be changed in the docker configurations.
+
+
+## Installation and Deployment
+In order to install and start the API, you have to perform the following two steps:
+1. Open the locally cloned project and open the ```smartroom-api``` folder. Create a ```devices.json``` with an empty JSON object inside ```({})``` in this folder. This file is mapped into two containers and used to maintain a list of all devices currently joined to the network.
+2.  Open any shell of your choice. Navigate into the ```smartroom-api``` folder. Use the command ```docker-compose up``` (```-d``` can be used to start in detached mode) to start the docker system. During the first start the database is initialized. For this reason, on the first startup the API container itself will exit with an error code. Although the [```docker-compose.yaml```](./docker-compose.yml) specifies that the API is depending on the database, the system does not recognize the database initialization and will start the API once the database container has started. Once the database is initialized, stop the containers again ```(Ctrl + C)``` and start again. Then everything should start in the right order and run without problems.
+
+Afterwards, the API is ready to be used (example usage see below). A full documentation of available API endpoints is also provided by the started API via [swagger](https://swagger.io/). To view it, perform a get request on the ```/docs``` ressource, prefearably by opening the resource via a web browser.  [Click here](http://localhost:8000/docs) if you are currently using the machine hosting the API to go to the documentation.
+
+In more detail, after successfull installation, the following docker containers will be running on your host machine:
 
 #### fastAPI on port 8001
 The fastAPI container starts the core python API in this system. The API communicates with the zigbee network through the [```publisher.py```](./api/publisher.py) file. Files related to the API are stored in the [```api```](./api/) subfolder. The API itself is in the [```main.py```](./api/main.py) file. Endpoints can directly be added in there. The [```fastAPI_models.py```](./api/fastAPI_models.py) file can be used to define structures for objects to map received JSON structures to python dictionaries. The [```schema.py```](./api/schema.py) needs to contain the database structure. In case the database is extended with tables for more devices, they need to be added in this file addtionally to the database initialization sql file. The [```session.py```](./api/session.py) and [```config.py```](./api/config.py) contain configurations and connection strings. It is highly recommended to work with the predefined configuration there, however, in case the container name/port/database user/database name/database password are changed the changes also need to be propagated to the config files here. Devices currently added to the API are stored in the ```devices.json```. This file is in the ```smartroom-api``` root folder, since the api as well as the subscriber are accessing it. 
@@ -25,14 +35,6 @@ pgAadmin can be used to manually read or write from/to the database without usin
 
 #### subscriber (no exposed port)
 The mqtt-subscriber is running in it's own container. The subscriber listens to the mqtt network created by the zigbee2mqtt-server. If a message from a device listed in the ```devices.json``` is received it contains operational data for this device. The subscriber stores this data through an endpoint on the API. For this reason, both the subscriber and the API need to have access to the ```devices.json``` in the ```smartroom-api``` root folder. One exception is the remote, which does not exist on API level. Meaning the remote needs to be added to the ```devices.json``` manually. The [```subscriber.py```](./subscriber/subscriber.py) file defines actions for the four buttons on the remote. Respective API calls are triggered. 
-
-
-## Installation and Deployment
-1. Open the locally cloned project and open the ```smartroom-api``` folder. Create a ```devices.json``` with an empty JSON object inside ```({})``` in this folder. This file is mapped into two containers and used to maintain a list of all devices currently joined to the network.
-2.  Open any shell of your choice. Navigate into the ```smartroom-api``` folder. Use the command ```docker-compose up``` (```-d``` can be used to start in detached mode) to start the docker system. During the first start the database is initialized. For this reason, on the first startup the API container itself will exit with an error code. Although the [```docker-compose.yaml```](./docker-compose.yml) specifies that the API is depending on the database, the system does not recognize the database initialization and will start the API once the database container has started. Once the database is initialized, stop the containers again ```(Ctrl + C)``` and start again. Then everything should start in the right order and run without problems.
-
-## Endpoint Documentation
-FastAPI provides an automatic documentation of the endpoints in the API via [swagger](https://swagger.io/). To view it, perform a get request on the ```/docs``` ressource, prefearably by opening the resource via a web browser.  [Click here](http://localhost:8000/docs) if you are currently using the machine hosting the API to go to the documentation.
 
 ## Pair new Devices
 Pairing devices to the zigbee network and adding them to the API are NOT connected. Meaning, you have to manually add the device to zigbee and then add the device to the API with the id used in the zigbee network. 
