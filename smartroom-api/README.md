@@ -61,10 +61,10 @@ At this point it is assumed that the device has already been paired to the zigbe
 
 2. A device can now be added to an existing room. If the ```room_id``` used is not found the endpoint returns an error. For this running example it is assumed that a light is added to the API. The post endpoint for this operation is ```/Rooms/{room_id}/Lights```. The ```light_id``` provided to this endpoint needs to match the friendly name used in the zigbee network. 
 
-
+![Post Light](/assets/images/create_light.png)
 #### Setting the State through the API
 
-![Post Light](/assets/images/create_light.png)
+
 #### Requesting State Data
 Devices paired to the zigbee network send data about their current state. This happens either on first joining the network, after a change was made to their state or when requested by the zigbee2mqtt server. The light for example transmits an updated state event every time it is toggled or the color/brightness change. An update can be requested by sending a message to the topic ```zigbee2mqtt/{friendly_name_of_the_device}/get```. The post endpoint ```/Rooms/{room_id}/Lights/{light_id}/ManualSavestate``` essentially does exactly that. The API stores every state update of any device paired to the API, no matter how the state transmit was triggered. 
 
