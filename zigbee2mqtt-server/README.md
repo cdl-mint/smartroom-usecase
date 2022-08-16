@@ -2,7 +2,7 @@
 The zigbee2mqtt server creates a zigbee network and allows to pair devices to this network. The server relays messages from and to the zigbee network by converting zigbee event messages in the network into mqtt messages and vice versa. Zigbee2mqtt uses the mosquitto broker to receive and send messages. This allows for more interoperability with zigbee devices since many other software and hardware components provide functionality for dealing with mqtt messages. 
 
 ## Important Note
-It is highly recommended to set the ```permit_join``` option in the configuration to false once all devices are joined to the network. This prevents other unwanted devices from joining the network.
+It is highly recommended to set the ```permit_join``` option in the [```configuration.yaml```](./zigbee2mqtt-data/configuration.yaml) to false once all devices are joined to the network. This prevents other unwanted devices from joining the network.
 
 ## Requirements
 #### Software
@@ -63,88 +63,14 @@ services:
       - /dev/ttyUSB0:/dev/ttyUSB0
 ```
 
-2. Create a subfolder ```zigbee2mqtt-data```. In the subfolder create a ```configuration.yaml```, which is used to configure the zigbee network. Use the following configuration.
+2. In the subfolder ```zigbee2mqtt-data``` the [configuration.yaml](./zigbee2mqtt-data/configuration.yaml) is used to configure the zigbee2mqtt server. It is recommended to use the default settings provided in the repository, since the rest of this application is building on this configuration. Please note the ```permit_join``` option in this file, which should be set to false once the network setup is complete. In this subfolder there is also the file [```12133.js```](./zigbee2mqtt-data/12133.js) which creates support for the Lupus power plug, since this particular model is out of the box not supported by zigbee2mqtt.
 
-```
-homeassistant: false
-permit_join: true
-mqtt:
-  base_topic: zigbee2mqtt
-  server: mqtt://mqtt
-serial:
-  port: /dev/ttyUSB0
-advanced:
-
-  network_key:
-    - 169
-    - 241
-    - 62
-    - 51
-    - 4
-    - 227
-    - 2
-    - 216
-    - 237
-    - 244
-    - 102
-    - 228
-    - 105
-    - 246
-    - 224
-    - 129
-  pan_id: 6755
-  ext_pan_id:
-    - 222
-    - 222
-    - 222
-    - 222
-    - 222
-    - 222
-    - 222
-    - 222
-  channel: 11
-  homeassistant_legacy_entity_attributes: false
-  legacy_api: false
-  legacy_availability_payload: false
-external_converters:
-  - 12133.js
-device_options:
-  legacy: false
-```
-
-3. Create a second file ```12133.js``` in the subfolder. This is an external converter to provide support for the Lupus 12133 power plug, since this model is out of the box not supported by zigbee2mqtt. 
-
-```
-const fz = require('zigbee-herdsman-converters/converters/fromZigbee');
-const tz = require('zigbee-herdsman-converters/converters/toZigbee');
-const exposes = require('zigbee-herdsman-converters/lib/exposes');
-const reporting = require('zigbee-herdsman-converters/lib/reporting');
-const e = exposes.presets;
-
-const definition = {
-    zigbeeModel: ['TS011F'],
-    model: '12133',
-    vendor: 'Lupus',
-    description: 'Power Plug',
-    fromZigbee: [fz.on_off],
-    toZigbee: [tz.on_off],
-    exposes: [e.switch()],
-
-    // The configure method below is needed to make the device reports on/off state changes
-    // when the device is controlled manually through the button on it.
-    configure: async (device, coordinatorEndpoint, logger) => {
-        const endpoint = device.getEndpoint(1);
-        await reporting.bind(endpoint, coordinatorEndpoint, ['genOnOff']);
-    },
-};
-```
-
-4. Open any shell of your choice. Navigate into the ```zigbee2mqtt-server``` folder. Start the docker containers with ```docker-compose up``` (```-d``` can be used to start the containers in detached mode). 
+3. Open any shell of your choice. Navigate into the ```zigbee2mqtt-server``` folder. Start the docker containers with ```docker-compose up``` (```-d``` can be used to start the containers in detached mode). 
 
 ## Pair new devices
-Pairing devices to the zigbee network and adding them to the API are NOT connected. Meaning, you have to manually add the device to zigbee and then add the device to the API with the id used in the zigbee network. [Click here](https://github.com/stefan-hinterhoelzl/smartroom-usecase/tree/master/smartroom-api) for the instructions on how to pair devices to the API.
+Pairing devices to the zigbee network and adding them to the API are NOT connected. Meaning, you have to manually add the device to zigbee and then add the device to the API with the id used in the zigbee network. [Click here](https://github.com/cdl-mint/smartroom-usecase/tree/master/smartroom-api) for the instructions on how to pair devices to the API.
 
-To add a device to the zigbee network first make sure the ```permit_join``` option is set to ```true``` in the ```configuration.yaml``` file. Otherwise the network will not allow devices to join. To perform the join, put the device into pairing mode (this highly depends on the device). The pairing mode will reset the device, delete the current connection and connect to a new available network. 
+To add a device to the zigbee network first make sure the ```permit_join``` option is set to ```true``` in the [```configuration.yaml```](./zigbee2mqtt-data/configuration.yaml) file. Otherwise the network will not allow devices to join. To perform the join, put the device into pairing mode (this highly depends on the device). The pairing mode will reset the device, delete the current connection and connect to a new available network. 
 
 For the devices used in this projects pairing mode can be entered through following actions:
 - For the motion sensors and the remote use a paper clip or a different pointy small object to press the reset button on the back of the devices for a few seconds. Once the devices start blinking they entered pairing mode. 
@@ -155,6 +81,6 @@ Be aware that in most cases the [zigbee2mqtt "supported devices"](https://www.zi
 
 ## Troubleshooting
 1. Error related to duplicate network keys:
-   This can happen if there are already zigbee networks nearby. The error can be avoided by marginally changing the ```pan_id```, ```ext_pan_id``` and ```network_key```. 
+   This can happen if there are already zigbee networks nearby. The error can be avoided by marginally changing the ```pan_id```, ```ext_pan_id``` and ```network_key``` in the [```configuration.yaml```](./zigbee2mqtt-data/configuration.yaml) file.
    
 2. For Raspberry Pis running Raspberry OS 10 (Buster) it can be necessary to install ```libseccomp2```. Raspberry OS Buster is the oldstable version since August 14, 2021, so the recommended solution is to update to the new stable Raspberry OS version 11 (Bullseye).
