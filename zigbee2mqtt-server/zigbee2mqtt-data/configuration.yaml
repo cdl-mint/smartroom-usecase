@@ -1,1 +1,44 @@
+homeassistant: false
+permit_join: true
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://mqtt
+serial:
+  port: /dev/ttyUSB0
+advanced:
 
+  network_key:
+    - 169
+    - 241
+    - 62
+    - 51
+    - 4
+    - 227
+    - 2
+    - 216
+    - 237
+    - 244
+    - 102
+    - 228
+    - 105
+    - 246
+    - 224
+    - 129
+  pan_id: 6755
+  ext_pan_id:
+    - 222
+    - 222
+    - 222
+    - 222
+    - 222
+    - 222
+    - 222
+    - 222
+  channel: 11
+  homeassistant_legacy_entity_attributes: false
+  legacy_api: false
+  legacy_availability_payload: false
+external_converters:
+  - 12133.js
+device_options:
+  legacy: false
