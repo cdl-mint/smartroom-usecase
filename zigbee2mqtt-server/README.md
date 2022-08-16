@@ -22,7 +22,7 @@ The system is designed to support the above listed devices. However, devices usi
 
 ## Installation and Deployment
 
-1. Open the  ```zigbee2mqtt-server``` folder locally on your machine.  Open the [```docker-compose.yaml```](./docker-compose.yaml) and change the device mount point if necessary. Use the following command ```ls -l /dev/serial/by-id``` to figure out which mount point the Sonoff dongle is mounted to. The USB mount point is specified in the ```devices``` section of the zigbee2mqtt container in the [```docker-compose.yaml```](./docker-compose.yaml). Please note that the first mount point declaration on the left hand side of the colon has to be changed according to your system. The mount point on the right hand side is the one inside the docker container and has to stay at ```/dev/ttyUSB0```  since the zigbee2mqtt server is expecting to find the dongle on this mount point (This can be changed in the [```configuration.yaml```](./zigbee2mqtt-data/configuration.yaml) file).
+1. Open the  ```zigbee2mqtt-server``` folder locally on your machine.  Open the [```docker-compose.yaml```](./docker-compose.yaml) and change the device mount point if necessary. Use the following command ```ls -l /dev/serial/by-id``` to figure out which mount point the Sonoff dongle is mounted to. The USB mount point is specified in the ```devices``` section of the zigbee2mqtt container in the [```docker-compose.yaml```](./docker-compose.yaml). Please note that the first mount point declaration on the left hand side of the colon has to be changed according to your system. The mount point on the right hand side is the one inside the docker container and has to stay at ```/dev/ttyUSB0```  since the zigbee2mqtt server is expecting to find the dongle on this mount point (This can be changed in the [```configuration.yaml```](./zigbee2mqtt-data/configuration.yaml)).
 
 Example output for the above stated command:
 ```
@@ -62,7 +62,7 @@ services:
       - /dev/ttyUSB0:/dev/ttyUSB0
 ```
 
-2. In the subfolder ```zigbee2mqtt-data``` the [configuration.yaml](./zigbee2mqtt-data/configuration.yaml) is used to configure the zigbee2mqtt server. It is recommended to use the default settings provided in the repository, since the rest of this application is building on this configuration. Please note the ```permit_join``` option in this file, which should be set to false once the network setup is complete. In this subfolder there is also the file [```12133.js```](./zigbee2mqtt-data/12133.js) which creates support for the Lupus power plug, since this particular model is out of the box not supported by zigbee2mqtt.
+2. In the subfolder ```zigbee2mqtt-data``` the [```configuration.yaml```](./zigbee2mqtt-data/configuration.yaml) is used to configure the zigbee2mqtt server. It is recommended to use the default settings provided in the repository, since the rest of this application is building on this configuration. Please note the ```permit_join``` option in this file, which should be set to false once the network setup is complete. In this subfolder there is also the file [```12133.js```](./zigbee2mqtt-data/12133.js) which creates support for the Lupus power plug, since this particular model is out of the box not supported by zigbee2mqtt.
 
 3. Open any shell of your choice. Navigate into the ```zigbee2mqtt-server``` folder. Start the docker containers with ```docker-compose up``` (```-d``` can be used to start the containers in detached mode). 
 
