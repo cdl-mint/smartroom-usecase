@@ -10,7 +10,13 @@ The API is started by opening a shell of your choice, navigating into the ```sma
 
 ## Description of individual Docker containers
 The services included in this docker container system are the following. The stated ports are preconfigured and can be changed in the docker configurations.
+- fastAPI on default port 8001
+- timescaledb on default port 5432
+- grafana on default port 3001
+- pgAdmin on default port 5051
+- subscriber with no exposed port
 
+A detailed description and relevant files can be found in the ```Installation and Deployment``` section.
 
 ## Installation and Deployment
 In order to install and start the API, you have to perform the following two steps:
@@ -21,19 +27,19 @@ Afterwards, the API is ready to be used (example usage see below). A full docume
 
 In more detail, after successfull installation, the following docker containers will be running on your host machine:
 
-#### fastAPI on port 8001
+#### fastAPI
 The fastAPI container starts the core python API in this system. The API communicates with the zigbee network through the [```publisher.py```](./api/publisher.py) file. Files related to the API are stored in the [```api```](./api/) subfolder. The API itself is in the [```main.py```](./api/main.py) file. Endpoints can directly be added in there. The [```fastAPI_models.py```](./api/fastAPI_models.py) file can be used to define structures for objects to map received JSON structures to python dictionaries. The [```schema.py```](./api/schema.py) needs to contain the database structure. In case the database is extended with tables for more devices, they need to be added in this file addtionally to the database initialization sql file. The [```session.py```](./api/session.py) and [```config.py```](./api/config.py) contain configurations and connection strings. It is highly recommended to work with the predefined configuration there, however, in case the container name/port/database user/database name/database password are changed the changes also need to be propagated to the config files here. Devices currently added to the API are stored in the ```devices.json```. This file is in the ```smartroom-api``` root folder, since the api as well as the subscriber are accessing it. 
 
-#### timescaledb on port 5432
+#### timescaledb
 The timescale database is started in its own docker container. In the ```environment``` section of this image in the [```docker-compose.yaml```](./docker-compose.yml)  the userdata can be changed (username, database name, password). However, as stated above, it is recommended to stick to the default configuartion here. In the subfolder [```database```](./database/) the [```Database_Schema.sql```](./database/Database_Schema.sql) file defines the sql script that is run on the first startup of the container. If the container already contains a database, the initialization is skipped. If the system is extended, this sql script needs to be also extended with the necessary tables. Please note the syntax to create hypertables and indices, which enable time series queries on the data. The database is connected to the other containers via a bridge network. The host of the database therefore is the container name (timeScaledb). Docker maps the container name to the given IP. 
 
-#### grafana on port 3001
+#### grafana
 Grafana can be used to visualize data on the database. Grafana is connected to the timescale database.
 
-#### pgAdmin on port 5051
+#### pgAdmin
 pgAadmin can be used to manually read or write from/to the database without using the API. This is very helpful, especially during developement. The email and password for pgAdmin can be configured in the [```docker-compose.yaml```](./docker-compose.yml).
 
-#### subscriber (no exposed port)
+#### subscriber
 The mqtt-subscriber is running in it's own container. The subscriber listens to the mqtt network created by the zigbee2mqtt-server. If a message from a device listed in the ```devices.json``` is received it contains operational data for this device. The subscriber stores this data through an endpoint on the API. For this reason, both the subscriber and the API need to have access to the ```devices.json``` in the ```smartroom-api``` root folder. One exception is the remote, which does not exist on API level. Meaning the remote needs to be added to the ```devices.json``` manually. The [```subscriber.py```](./subscriber/subscriber.py) file defines actions for the four buttons on the remote. Respective API calls are triggered. 
 
 ## Pair new Devices
