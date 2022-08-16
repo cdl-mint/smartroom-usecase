@@ -12,7 +12,7 @@ The API is started by opening a shell of your choice, navigating into the ```sma
 The services included in this docker container system are the following. The stated ports are preconfigured and can be changed in the docker configurations.
 - fastAPI on default port 8001
 - timescaledb on default port 5432
-- grafana on default port 3001
+- Grafana on default port 3001
 - pgAdmin on default port 5051
 - subscriber with no exposed port
 
@@ -33,7 +33,7 @@ The fastAPI container starts the core python API in this system. The API communi
 #### timescaledb
 The timescale database is started in its own docker container. In the ```environment``` section of this image in the [```docker-compose.yaml```](./docker-compose.yml)  the userdata can be changed (username, database name, password). However, as stated above, it is recommended to stick to the default configuartion here. In the subfolder [```database```](./database/) the [```Database_Schema.sql```](./database/Database_Schema.sql) file defines the sql script that is run on the first startup of the container. If the container already contains a database, the initialization is skipped. If the system is extended, this sql script needs to be also extended with the necessary tables. Please note the syntax to create hypertables and indices, which enable time series queries on the data. The database is connected to the other containers via a bridge network. The host of the database therefore is the container name (timeScaledb). Docker maps the container name to the given IP. 
 
-#### grafana
+#### Grafana
 Grafana can be used to visualize data on the database. Grafana is connected to the timescale database.
 
 #### pgAdmin
@@ -98,7 +98,7 @@ Operational data of devices stored in the database can be queried with the post!
 3. On the left hand side in the menu the tables can be found as shown in the figure below. Through this interface data can be added, deleted, modified or simply read. 
 
 ![PG Admin 3](/assets/images/pgadmin_3.png)
-#### Visualizing Data in grafana
+#### Visualizing Data in Grafana
 
 TBA
 
