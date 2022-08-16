@@ -63,14 +63,16 @@ At this point it is assumed that the device has already been paired to the zigbe
 
 ![Post Light](/assets/images/create_light.png)
 #### Setting the State through the API
-Lights can be toggled via the POST endpoint ```/Rooms/{room_id}/{Lights}/{light_id}/Activation``` with no bod content. A respective endpoint exists for power plugs. For lights there are more settings that can be changed. For this reason the API offers another POST endpoint on ```/Rooms/{room_id}/{Lights}/{light_id}/ComplexSettings```. This ressource takes a JSON body with values for the respective properties of the light:
+Lights can be toggled via the POST endpoint ```/Rooms/{room_id}/{Lights}/{light_id}/Activation``` with no bod content. A respective endpoint exists for power plugs. For lights there are more settings that can be changed. For this reason the API offers another POST endpoint on ```/Rooms/{room_id}/{Lights}/{light_id}/ComplexSettings```. This ressource takes a JSON body with values for the respective properties of the light. Note that all values must be set, otherwise the API will throw an error:
 ```
 turnon: "ON" or "OFF",
 brightness: integer from 0-255
 color: color code in hex
 ```
 
-Note: The API sets the color via a hex codes, but stores the color in xy-color space. Hex codes for setting the color were chosen for better usability. The LED strip can however not be configured to transmit the color state in hex codes. 
+Note: The API sets the color via hex codes, but transmits the color state in xy-color space representation. Hex codes for setting the color were chosen for better usability. The LED strip can however not be configured to transmit the color state in hex representation. 
+
+Screenshots
 
 
 
@@ -96,6 +98,7 @@ Operational data of devices stored in the database can be queried with the post!
 ![PG Admin 3](/assets/images/pgadmin_3.png)
 #### Visualizing Data in grafana
 
+TBA
 
 
 #### Deleting the Device from the API
