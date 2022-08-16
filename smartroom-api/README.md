@@ -6,7 +6,7 @@
 - The host needs to have [docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/) installed. 
 
 ## Starting the API
-Beschreib hier 
+The API is started by opening a shell of your choice, navigating into the ```smartroom-api``` folder and using the command ```docker-compose up``` (```-d``` can be used to start in detached mode). When there is already a database present in the docker volume, the system will skip the initialization and use the data that is already present. The [```docker-compose.yaml```](./docker-compose.yml) can be modified to automatically restart and start on boot of the host machine. When the docker system is running in the foreground, the system can be turned of with ```(Ctrl + C)``` or ```docker-compose stop```. When the system is running detached, it either shuts down and restarts with the host machine itself or by using the command ```docker-compose stop``` in the smartroom-api folder. 
 
 ## Description of individual Docker containers
 The services included in this docker container system are the following. The stated ports are preconfigured and can be changed in the docker configurations.
