@@ -100,8 +100,21 @@ Operational data of devices stored in the database can be queried with the post!
 ![PG Admin 3](/assets/images/pgadmin_3.png)
 #### Visualizing Data in Grafana
 
-TBA
+When accessing  Grafana through the login data for the first access is ```admin``` as password and username. Afterwards the system will ask for a new password for the admin user. Once this initial login is completed the homescreen appears.
 
+![Grafana 1](/assets/images/grafana_1.png)
+
+Next, add a new datasource. Select the Postgres option, since the timeseries database is built on postgres. 
+
+![Grafana 2](/assets/images/grafana_2.png)
+
+Use the same connection settings as used for pgAdmin. Make sure you disable ```SSL Mode``` since it is activated out of the box but not configured in this system.
+
+![Grafana 3](/assets/images/grafana_3.png)
+
+Now that the datasource is configured queries on the database can be built in the UI by clicking on the plus symbol on the left hand side and choosing ```Add Query```. In this menu the desired querie can be built with the predefined blocks.
+
+![Grafana 4](/assets/images/grafana_4.png)
 
 #### Deleting the Device from the API
 Data from the API can be deleted with the respective endpoint. For lights the delete request is ```Rooms/{room_id}/Lights/{light_id}```. The API performs a casacding delete, meaning once a light is removed all the operational data for the light is removed. The same is true for rooms. If a room is deleted, all the devices and corresponding operational data are deleted. 
