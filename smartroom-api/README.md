@@ -61,6 +61,9 @@ At this point it is assumed that the device has already been paired to the zigbe
 
 2. A device can now be added to an existing room. If the ```room_id``` used is not found the endpoint returns an error. For this running example it is assumed that a light is added to the API. The post endpoint for this operation is ```/Rooms/{room_id}/Lights```. The ```light_id``` provided to this endpoint needs to match the friendly name used in the zigbee network. 
 
+
+#### Setting the State through the API
+
 ![Post Light](/assets/images/create_light.png)
 #### Requesting State Data
 Devices paired to the zigbee network send data about their current state. This happens either on first joining the network, after a change was made to their state or when requested by the zigbee2mqtt server. The light for example transmits an updated state event every time it is toggled or the color/brightness change. An update can be requested by sending a message to the topic ```zigbee2mqtt/{friendly_name_of_the_device}/get```. The post endpoint ```/Rooms/{room_id}/Lights/{light_id}/ManualSavestate``` essentially does exactly that. The API stores every state update of any device paired to the API, no matter how the state transmit was triggered. 
@@ -77,15 +80,19 @@ Operational data of devices stored in the database can be queried with the post!
 
 2. The connection uses the configuration from the [```docker-compose.yaml```](./docker-compose.yml) file. As hostname the container name of the timescale database is entered. The connection is saved with ```Save``` on the right hand bottom end of the overlay window.
 
-![PG Admin 1](/assets/images/pgadmin_2.png)
+![PG Admin 2](/assets/images/pgadmin_2.png)
 
 3. On the left hand side in the menu the tables can be found as shown in the figure below. Through this interface data can be added, deleted, modified or simply read. 
 
-![PG Admin 1](/assets/images/pgadmin_3.png)
+![PG Admin 3](/assets/images/pgadmin_3.png)
+#### Visualizing Data in grafana
+
+
+
 #### Deleting the Device from the API
 Data from the API can be deleted with the respective endpoint. For lights the delete request is ```Rooms/{room_id}/Lights/{light_id}```. The API performs a casacding delete, meaning once a light is removed all the operational data for the light is removed. The same is true for rooms. If a room is deleted, all the devices and corresponding operational data are deleted. 
 
-![PG Admin 1](/assets/images/delete_light.png)
+![Delete_Operation](/assets/images/delete_light.png)
 
 
 
