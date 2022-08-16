@@ -72,7 +72,9 @@ color: color code in hex
 
 Note: The API sets the color via hex codes, but transmits the color state in xy-color space representation. Hex codes for setting the color were chosen for better usability. The LED strip can however not be configured to transmit the color state in hex representation. 
 
-Screenshots
+![Light Activation](/assets/images/Activation.png)
+
+![Light Complex Settings](/assets/images/Complex_Settings.png)
 
 
 
